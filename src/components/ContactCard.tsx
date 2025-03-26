@@ -4,7 +4,7 @@ import { Card, Col, Image } from 'react-bootstrap';
 import { Contact } from '@/lib/validationSchemas';
 
 /* Renders a single contact card. See list/page.tsx. */
-const ContactCard = ({ firstName, lastName, address, image, description }: Contact) => (
+const ContactCard = ({ firstName, lastName, address, image, description }: Omit<Contact, 'owner'>) => (
   <Col>
     <Card className="h-100">
       <Card.Header className="d-flex align-items-center">
