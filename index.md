@@ -1,136 +1,164 @@
-# Digits: A Contact Management System
+# Digits: Contact Management Application
 
 <img src="doc/landing-page.png">
 
-Digits is an application that allows users to:
+## Overview
 
-* Register an account.
-* Create and manage a set of contacts.
-* Add contact information including name, address, image and description.
-* Control access to contact data with admin and regular user roles.
+Digits is a contact management application built with Next.js 14 that allows users to:
+
+- Create and manage personal contact information
+- View contact details organized in an easy-to-use interface
+- Secure authentication with user accounts
+- Admin role for managing all contacts in the system
+
+The application demonstrates:
+
+- A modern Next.js 14 application structure with app router
+- PostgreSQL database integration using Prisma ORM
+- Authentication and authorization with NextAuth.js
+- React Bootstrap for a responsive UI
+- React Hook Form for form handling and validation
 
 ## Installation
 
 ### Prerequisites
 
-- Node.js (version 18 or later)
-- Git
+1. Install [Node.js](https://nodejs.org)
+2. Install [PostgreSQL](https://www.postgresql.org/download/)
+3. Create a database for the application:
 
-### Setup Steps
+```
+$ createdb digitsdb
+```
+
+### Setup Instructions
 
 1. Clone the repository:
-   ```
-   git clone https://github.com/ChristianLow428/Digits.git
-   cd Digits
-   ```
+
+```
+$ git clone https://github.com/yourusername/digits.git
+$ cd digits
+```
 
 2. Install dependencies:
-   ```
-   npm install
-   ```
-
-3. Copy the sample environment file and configure it:
-   ```
-   cp sample.env .env
-   ```
-
-4. Set up the database:
-   ```
-   npx prisma migrate dev --name init
-   npx prisma db seed
-   ```
-
-5. Start the development server:
-   ```
-   npm run dev
-   ```
-
-The first time you run the app, it will create some default users and data. Here is the expected output:
 
 ```
-> nextjs-application-template-1@0.1.0 dev
-> next dev
-
-  ▲ Next.js 14.2.24
-  - Local:        http://localhost:3000
-  - Environments: .env
-
- ✓ Starting...
- ✓ Ready in 1162ms
-
-Environment variables loaded from .env
-Running seed command `ts-node --compiler-options {"module":"CommonJS"} prisma/seed.ts` ...
-Seeding the database
-  Creating user: admin@foo.com with role: ADMIN
-  Creating user: john@foo.com with role: USER
-
-🌱  The seed command has been executed.
+$ npm install
 ```
 
-6. Navigate to [http://localhost:3000](http://localhost:3000) to view the application.
+3. Create a `.env` file in the root directory with the following content (adjust as needed for your PostgreSQL setup):
 
-You can login using the credentials in settings.development.json, or else register a new account:
-- Regular user: email `john@foo.com`, password `changeme`
-- Admin user: email `admin@foo.com`, password `changeme`
+```
+DATABASE_URL="postgresql://yourusername:yourpassword@localhost:5432/digitsdb?schema=public"
+NEXTAUTH_SECRET=yoursecretkey
+NEXTAUTH_URL=http://localhost:3000
+```
 
-## User Interface Walkthrough
+4. Run Prisma migrations to set up the database schema:
+
+```
+$ npx prisma migrate dev
+```
+
+5. Seed the database with initial user accounts:
+
+```
+$ npx prisma db seed
+```
+
+This will create two default accounts:
+- Admin: admin@foo.com (password: changeme)
+- Regular user: john@foo.com (password: changeme)
+
+## Running the Application
+
+Start the development server:
+
+```
+$ npm run dev
+```
+
+The application will be available at [http://localhost:3000](http://localhost:3000).
+
+## Application Walkthrough
 
 ### Landing Page
 
 <img src="doc/landing-page.png">
 
-When you first bring up the application, you will see the landing page that provides a brief introduction to the capabilities of Digits.
+The landing page provides an overview of the application's main features:
+- Multiple user accounts
+- Contact management functionality
+- Ability to store detailed contact information
 
-### Register
-
-<img src="doc/register-page.png">
-
-If you do not yet have an account on the system, you can register by clicking on "Login", then "Sign Up".
-
-### Sign in
+### Sign In Page
 
 <img src="doc/signin-page.png">
 
-Click on the Login link, then click on the Signin link to bring up the Sign In page which allows you to login.
+Users can sign in with their email and password. New users can navigate to the registration page to create an account.
 
-### List Contacts Page
+### Register Page
+
+<img src="doc/register-page.png">
+
+New users can create an account by providing an email address and password.
+
+### Contacts List Page
 
 <img src="doc/list-stuff-page.png">
 
-After logging in, users can view a list of their contacts. This page displays all contacts that belong to the current user.
+After signing in, users can view their contacts. This page displays all contacts created by the currently logged-in user.
 
 ### Add Contact Page
 
 <img src="doc/add-stuff-page.png">
 
-Clicking on the Add Contact link brings up a page that allows you to add a new contact with fields for first name, last name, address, image URL, and description.
+Users can add new contacts by providing:
+- First name
+- Last name
+- Address
+- Image URL (for a contact photo)
+- Description
 
 ### Admin Page
 
 <img src="doc/admin-list-stuff-page.png">
 
-It is possible to designate one or more users as "Admins" through the settings file. When a user has the Admin role, they get access to a special NavBar link that retrieves a page listing all Contacts associated with all users.
+Users with the admin role can access this page, which displays all contacts in the system from all users.
 
 ### Change Password Page
 
 <img src="doc/change-password-page.png">
 
-Users can change their password through this page. Access it by clicking on your email in the navigation bar and selecting "Change Password."
+Users can update their password by entering their current password and a new password.
 
-### Sign Out Page
+### Not Authorized Page
 
-<img src="doc/signout-page.png">
+<img src="doc/not-authorized-page.png">
 
-Users can sign out of the application, which will redirect them to the landing page.
+This page is displayed when a user attempts to access a page they don't have permission to view.
 
-## Development Tools
+## Technology Stack
 
-You can verify that the code obeys our coding standards by running ESLint over the code with:
+- **Frontend**: Next.js 14, React, React Bootstrap
+- **Backend**: Next.js API routes
+- **Database**: PostgreSQL
+- **ORM**: Prisma
+- **Authentication**: NextAuth.js
+- **Form Handling**: React Hook Form, Yup validation
+- **Styling**: Bootstrap 5, CSS
+
+## Project Structure
 
 ```
-npm run lint
+.github/        # GitHub configurations
+config/         # Configuration files
+doc/            # Documentation and screenshots
+prisma/         # Prisma schema and migrations
+public/         # Static assets
+src/
+  ├── app/      # Next.js app router pages
+  ├── components/ # React components
+  └── lib/      # Utility functions and libraries
+tests/          # End-to-end tests
 ```
-
-## Credits
-
-This application was created as a learning project based on the [Next.js Application Template](https://github.com/ics-software-engineering/nextjs-application-template).
